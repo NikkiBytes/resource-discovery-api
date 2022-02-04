@@ -1,5 +1,9 @@
-from biothings.web.handlers import FrontPageHandler
-from biothings.web.handlers import QueryHandler
+from telnetlib import EL
+from biothings.web.handlers import FrontPageHandler, BaseQueryHandler, QueryHandler
+from biothings.web.query import ESQueryBackend
+#from elasticsearch import Elasticsearch
+#from elasticsearch_dsl import Search
+
 
 class FrontPageHandler(FrontPageHandler):
 
@@ -8,19 +12,21 @@ class FrontPageHandler(FrontPageHandler):
 
 class CD2HQueryHandler(QueryHandler):
     name = 'cd2h'
+    async def get(self, *args, **kwargs):
+        user_input=args[0]
 
-    def post(self, src=None):
-        self.event['action'] = 'cd2h_post'
-
-    def get(self, src=None):
+        # TESTING OUTPUT 
+        self.write({
+            "USER INPUT" : user_input, 
+            "FORMAT": self.args['format'],
+            "BIOTHING TYPE": self.args['biothing_type']
+        }
+        )
     
-        self.event['action'] = 'cd2h_get'
-        self.write(self.event["action"])
-
-
+    async def post(self, *args, **kwargs):
+        self.write(args[0])
 
 
 EXTRA_HANDLERS = [
     (r"/", FrontPageHandler),
-    (r"/es_query_test/(.+)", CD2HQueryHandler),
-]
+    (r"/cd2h/es_query/(.+)", CD2HQueryHandler,{"biothing_type": "cd2h"}),]

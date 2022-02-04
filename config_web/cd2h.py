@@ -1,4 +1,5 @@
 from config_local import ES_PRIVATE_HOST, ES_HTTP_AUTH
+from web.handlers import EXTRA_HANDLERS
 
 # *****************************************************************************
 # Elasticsearch Settings
@@ -23,3 +24,5 @@ ANNOTATION_DEFAULT_SCOPES = ["_id"]
 # *****************************************************************************
 API_PREFIX = 'api'
 API_VERSION = ''
+API_VERSION = 'v1'
+
